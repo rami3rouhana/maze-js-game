@@ -28,8 +28,10 @@ window.addEventListener('load', pageLoad = () =>{
     // Game Loose Function
     const gameEnd = () => {
         game = false
+        alert("You Lost !")
         Array.from(boundaries).forEach( boundary => {
             boundary.classList.add("youlose");
+            boundary.removeEventListener("mouseover", gameEnd);
         });
         gameBody.removeEventListener("mouseleave", gameEnd)
         end.removeEventListener("mouseover", gameWin)
