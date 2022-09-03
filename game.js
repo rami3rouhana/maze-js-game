@@ -37,12 +37,17 @@ window.addEventListener('load', pageLoad = () =>{
     displayMessage.after(scoreBoard);
 
     // Reset game 
-    // resetButton.addEventListener("")
+
+    // resetButton.addEventListener("onClick",{
+    //     score = 0
+    //     scoreDisplay.innerHTML = `Your current score: ${score}`; // Display score
+    //    gameStart();
+    // })
     
     // Game Start Function
 
     const gameStart = () => {
-        game = true
+        game = true //Starts game
         Array.from(boundaries).forEach( boundary => {
             boundary.classList.remove("youlose");
         });
@@ -51,11 +56,16 @@ window.addEventListener('load', pageLoad = () =>{
     // Adding Listner
 
     start.onmouseenter = function () {
+
         // Adding reset function
+
         start.onclick = function () {
             score = 0
             scoreDisplay.innerHTML = `Your current score: ${score}`; // Display score
         }
+
+        // Game start
+
         gameStart();
         Array.from(boundaries).forEach( boundary => {
             boundary.addEventListener("mouseover", gameEnd);
@@ -67,7 +77,7 @@ window.addEventListener('load', pageLoad = () =>{
     // Game Loose Function
 
     const gameEnd = () => {
-        game = false
+        game = false //reset game
         displayMessage.innerHTML = "You Lost !"; // Display win message
         score -= 10; // Removing from score
         scoreDisplay.innerHTML = `Your current score: ${score}`; // Display score
@@ -82,7 +92,7 @@ window.addEventListener('load', pageLoad = () =>{
     // Game Win Function
 
     const gameWin = () => {
-        game = false
+        game = false //reset game
         displayMessage.innerHTML = "You Won !"; // Display win message 
         score += 5; // Adding to score
         scoreDisplay.innerHTML = `Your current score: ${score}`; //Display score
