@@ -37,7 +37,7 @@ window.addEventListener('load', pageLoad = () =>{
         game = false
         alert("You Won !")
         Array.from(boundaries).forEach( boundary => {
-            boundary.removeEventListener("mouseover", gameEnd);
+            boundary.removeEventListener("mouseleave", gameEnd);
         });
         end.removeEventListener("mouseover", gameWin)
     }
