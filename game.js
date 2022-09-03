@@ -7,6 +7,7 @@ window.addEventListener('load', pageLoad = () =>{
     const boundaries = document.getElementsByClassName("boundary");
     const displayMessage = document.getElementById("status");
     let game = false;
+    let score = 0;
     
     // Game Start Function
     const gameStart = () => {
@@ -30,6 +31,7 @@ window.addEventListener('load', pageLoad = () =>{
     const gameEnd = () => {
         game = false
         displayMessage.innerHTML = "You Lost !"; // Display win message
+        score -= 10;
         Array.from(boundaries).forEach( boundary => {
             boundary.classList.add("youlose");
             boundary.removeEventListener("mouseover", gameEnd);
@@ -42,6 +44,7 @@ window.addEventListener('load', pageLoad = () =>{
     const gameWin = () => {
         game = false
         displayMessage.innerHTML = "You Won !"; // Display win message 
+        score += 5;
         Array.from(boundaries).forEach( boundary => {
             boundary.removeEventListener("mouseover", gameEnd);
         });
