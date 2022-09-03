@@ -5,7 +5,8 @@ window.addEventListener('load', pageLoad = () =>{
     const start = document.getElementById("start");
     const end = document.getElementById("end");
     const boundaries = document.getElementsByClassName("boundary");
-    let game = false
+    const displayMessage = document.getElementById("status");
+    let game = false;
     
     // Game Start Function
     const gameStart = () => {
@@ -21,31 +22,31 @@ window.addEventListener('load', pageLoad = () =>{
         Array.from(boundaries).forEach( boundary => {
             boundary.addEventListener("mouseover", gameEnd);
         });
-        gameBody.addEventListener("mouseleave", gameEnd)  // Game patch 
-        end.addEventListener("mouseover", gameWin)
+        gameBody.addEventListener("mouseleave", gameEnd);  // Game patch 
+        end.addEventListener("mouseover", gameWin);
     }
      
     // Game Loose Function
     const gameEnd = () => {
         game = false
-        alert("You Lost !")
+        displayMessage.innerHTML = "You Lost !"; // Display win message
         Array.from(boundaries).forEach( boundary => {
             boundary.classList.add("youlose");
             boundary.removeEventListener("mouseover", gameEnd);
         });
-        gameBody.removeEventListener("mouseleave", gameEnd)
-        end.removeEventListener("mouseover", gameWin)
+        gameBody.removeEventListener("mouseleave", gameEnd);
+        end.removeEventListener("mouseover", gameWin);
     }
     
     // Game Win Function
     const gameWin = () => {
         game = false
-        alert("You Won !")
+        displayMessage.innerHTML = "You Won !"; // Display win message 
         Array.from(boundaries).forEach( boundary => {
             boundary.removeEventListener("mouseover", gameEnd);
         });
-        gameBody.removeEventListener("mouseleave", gameEnd)
-        end.removeEventListener("mouseover", gameWin)
+        gameBody.removeEventListener("mouseleave", gameEnd);
+        end.removeEventListener("mouseover", gameWin);
     }
 
 })
