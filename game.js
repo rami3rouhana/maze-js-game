@@ -1,6 +1,7 @@
 // Waiting till HTML page loads
 window.addEventListener('load', pageLoad = () =>{
     // Variable Declaration
+    const gameBody = document.getElementById("game")
     const start = document.getElementById("start");
     const end = document.getElementById("end");
     const boundaries = document.getElementsByClassName("boundary");
@@ -20,6 +21,7 @@ window.addEventListener('load', pageLoad = () =>{
         Array.from(boundaries).forEach( boundary => {
             boundary.addEventListener("mouseover", gameEnd);
         });
+        gameBody.addEventListener("mouseleave", gameEnd)  // Game patch 
         end.addEventListener("mouseover", gameWin)
     }
      
@@ -29,6 +31,7 @@ window.addEventListener('load', pageLoad = () =>{
         Array.from(boundaries).forEach( boundary => {
             boundary.classList.add("youlose");
         });
+        gameBody.removeEventListener("mouseleave", gameEnd)
         end.removeEventListener("mouseover", gameWin)
     }
     
@@ -39,6 +42,7 @@ window.addEventListener('load', pageLoad = () =>{
         Array.from(boundaries).forEach( boundary => {
             boundary.removeEventListener("mouseover", gameEnd);
         });
+        gameBody.removeEventListener("mouseleave", gameEnd)
         end.removeEventListener("mouseover", gameWin)
     }
 
