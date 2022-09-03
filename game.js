@@ -52,7 +52,7 @@ window.addEventListener('load', pageLoad = () =>{
 
     start.onmouseenter = function () {
         // Adding reset function
-        start.click = function () {
+        start.onclick = function () {
             score = 0
             scoreDisplay.innerHTML = `Your current score: ${score}`; // Display score
         }
