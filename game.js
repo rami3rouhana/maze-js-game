@@ -6,7 +6,7 @@ window.addEventListener('load', pageLoad = () =>{
     const boundaries = document.getElementsByClassName("boundary");
     let game = false
     
-    // Game Start
+    // Game Start Function
     const gameStart = () => {
         game = true
         Array.from(boundaries).forEach( boundary => {
@@ -14,5 +14,23 @@ window.addEventListener('load', pageLoad = () =>{
         });
     }
 
+    // Adding Listner
+    start.onclick = function (){
+        gameStart();
+        Array.from(boundaries).forEach( boundary => {
+            boundary.addEventListener("mouseleave", gameEnd);
+        });
+        end.addEventListener("mouseover", gameWin)
+    }
+     
+    // Game Loose Function
+    const gameEnd = () => {
+        game = false
+        Array.from(boundaries).forEach( boundary => {
+            boundary.classList.add("youlose");
+        });
+        end.removeEventListener("mouseleave", gameWin)
+    }
+    
 
 })
