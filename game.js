@@ -18,7 +18,7 @@ window.addEventListener('load', pageLoad = () =>{
     start.onclick = function (){
         gameStart();
         Array.from(boundaries).forEach( boundary => {
-            boundary.addEventListener("mouseleave", gameEnd);
+            boundary.addEventListener("mouseover", gameEnd);
         });
         end.addEventListener("mouseover", gameWin)
     }
@@ -29,7 +29,7 @@ window.addEventListener('load', pageLoad = () =>{
         Array.from(boundaries).forEach( boundary => {
             boundary.classList.add("youlose");
         });
-        end.removeEventListener("mouseleave", gameWin)
+        end.removeEventListener("mouseover", gameWin)
     }
     
     // Game Win Function
@@ -37,7 +37,7 @@ window.addEventListener('load', pageLoad = () =>{
         game = false
         alert("You Won !")
         Array.from(boundaries).forEach( boundary => {
-            boundary.removeEventListener("mouseleave", gameEnd);
+            boundary.removeEventListener("mouseover", gameEnd);
         });
         end.removeEventListener("mouseover", gameWin)
     }
