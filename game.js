@@ -32,5 +32,14 @@ window.addEventListener('load', pageLoad = () =>{
         end.removeEventListener("mouseleave", gameWin)
     }
     
+    // Game Win Function
+    const gameWin = () => {
+        game = false
+        alert("You Won !")
+        Array.from(boundaries).forEach( boundary => {
+            boundary.removeEventListener("mouseover", gameEnd);
+        });
+        end.removeEventListener("mouseover", gameWin)
+    }
 
 })
