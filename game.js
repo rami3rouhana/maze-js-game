@@ -1,5 +1,5 @@
 // Waiting till HTML page loads
-window.addEventListener('load', pageLoad = () =>{
+window.addEventListener('load', pageLoad = () => {
 
     // Variable Declaration
     const gameBody = document.getElementById("game")
@@ -8,21 +8,23 @@ window.addEventListener('load', pageLoad = () =>{
     const boundaries = document.getElementsByClassName("boundary");
     const displayMessage = document.getElementById("status");
     const timer = document.getElementById("timer");
-    const easyMode = document.getElementById("easy");
-    const mediumMode = document.getElementById("medium");
-    const hardMode = document.getElementById("hard");
+    const customMode = document.getElementById("custom");
+    const trialMode = document.getElementById("trial");
+    const impMode = document.getElementById("imp");
     const gameMode = document.getElementById("gameMode");
+    const seconds = document.getElementById("mainsecond");
+    const milliSeconds = document.getElementById("milliseconds");
     let playerName = prompt("Please enter your name: ");
     let game = false;
     let score = 0;
 
     // Load saved game
 
-    if(localStorage.getItem(playerName.toLowerCase()) !== null){
+    if (localStorage.getItem(playerName.toLowerCase()) !== null) {
         let data = JSON.parse(localStorage.getItem(playerName.toLowerCase()));
         score = data.score;
-    }   
-    
+    }
+
     // Adding score board element
 
     const scoreBoard = document.createElement("div");
@@ -51,14 +53,14 @@ window.addEventListener('load', pageLoad = () =>{
     // level2.style.margin = "0 10px 0 10px";
     // const levelLabel = document.createElement("h3");
     // levelLabel.style.marginRight = "5px";
-    
+
     // Adding display text
 
     saveButton.innerHTML = "Save Game";
     // levelLabel.innerHTML = "Choose your level:"
-    // level1.innerHTML = "Easy";
-    // level2.innerHTML = "Medium";
-    // level3.innerHTML = "Hard";
+    // level1.innerHTML = "custom";
+    // level2.innerHTML = "trial";
+    // level3.innerHTML = "imp";
     scoreDisplay.innerHTML = `Your current score: ${score}`;
     // saveLabel.innerHTML = "Remember the name that you've entered."
 
@@ -95,46 +97,77 @@ window.addEventListener('load', pageLoad = () =>{
 
     customButton.style.marginLeft = "10px";
     customButton.innerHTML = "Set Timer";
-    
+
 
     customTime.appendChild(customInput);
     customTime.appendChild(customButton);
 
 
-    easyMode.onclick = function () {
-        gameMode.after( customTime );
-        easyMode.disabled = true;
-        mediumMode.disabled = false;
-        hardMode.disabled = false;
+    customMode.onclick = function () {
+
+        // Resetting timer
+
+        seconds.innerHTML = '00';
+        milliSeconds.innerHTML = '000';
+
+        gameMode.after(customTime); // Adding the input field 
+
+        // Disabling button
+
+        customMode.disabled = true;
+        trialMode.disabled = false;
+        impMode.disabled = false;
+
+        customButton.onclick = function () {
+            customInput.value <= 9 ? seconds.innerHTML = `0${customInput.value}` : seconds.innerHTML = `${customInput.value}`
+            milliSeconds.innerHTML = '000';
+            customInput.value = "";
+        }
     }
 
-    mediumMode.onclick = function () { 
-        document.getElementById("customTime") && document.body.removeChild( customTime );
-        easyMode.disabled = false;
-        mediumMode.disabled = true;
-        hardMode.disabled = false;
+    trialMode.onclick = function () {
+        document.getElementById("customTime") && document.body.removeChild(customTime);
+
+        // Resetting timer
+
+        seconds.innerHTML = '00';
+        milliSeconds.innerHTML = '000';
+
+        // Disabling button
+
+        customMode.disabled = false;
+        trialMode.disabled = true;
+        impMode.disabled = false;
     }
 
-    hardMode.onclick = function () {
-        document.getElementById("customTime") && document.body.removeChild( customTime );
-        easyMode.disabled = false;
-        mediumMode.disabled = false;
-        hardMode.disabled = true;
+    impMode.onclick = function () {
+        document.getElementById("customTime") && document.body.removeChild(customTime);
+        
+        // Resetting timer
+
+        seconds.innerHTML = '01';
+        milliSeconds.innerHTML = '500';
+        
+        // Disabling button
+
+        customMode.disabled = false;
+        trialMode.disabled = false;
+        impMode.disabled = true;
     }
     // Save game 
 
     saveButton.addEventListener("click", () => {
-        localStorage.setItem(playerName.toLocaleLowerCase(), JSON.stringify({  
+        localStorage.setItem(playerName.toLocaleLowerCase(), JSON.stringify({
             "score": score
         }))
     })
-    
+
     // Game Start Function
 
     const gameStart = () => {
         game = true //Starts game
         displayMessage.innerHTML = `Good Luck ${playerName}!`;
-        Array.from(boundaries).forEach( boundary => {
+        Array.from(boundaries).forEach(boundary => {
             boundary.classList.remove("youlose");
         });
     }
@@ -153,13 +186,13 @@ window.addEventListener('load', pageLoad = () =>{
         // Game start
 
         gameStart();
-        Array.from(boundaries).forEach( boundary => {
+        Array.from(boundaries).forEach(boundary => {
             boundary.addEventListener("mouseover", gameEnd);
         });
         gameBody.addEventListener("mouseleave", gameEnd);  // Game patch 
         end.addEventListener("mouseover", gameWin);
     }
-     
+
     // Game Loose Function
 
     const gameEnd = () => {
@@ -167,14 +200,14 @@ window.addEventListener('load', pageLoad = () =>{
         displayMessage.innerHTML = "You`ve Lost !"; // Display win message
         score -= 10; // Removing from score
         scoreDisplay.innerHTML = `Your current score: ${score}`; // Display score
-        Array.from(boundaries).forEach( boundary => {
+        Array.from(boundaries).forEach(boundary => {
             boundary.classList.add("youlose");
             boundary.removeEventListener("mouseover", gameEnd);
         });
         gameBody.removeEventListener("mouseleave", gameEnd);
         end.removeEventListener("mouseover", gameWin);
     }
-    
+
     // Game Win Function
 
     const gameWin = () => {
@@ -182,7 +215,7 @@ window.addEventListener('load', pageLoad = () =>{
         displayMessage.innerHTML = "You`ve Won !"; // Display win message 
         score += 5; // Adding to score
         scoreDisplay.innerHTML = `Your current score: ${score}`; //Display score
-        Array.from(boundaries).forEach( boundary => {
+        Array.from(boundaries).forEach(boundary => {
             boundary.removeEventListener("mouseover", gameEnd);
         });
         gameBody.removeEventListener("mouseleave", gameEnd);
