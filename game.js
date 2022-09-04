@@ -7,6 +7,7 @@ window.addEventListener('load', pageLoad = () =>{
     const end = document.getElementById("end");
     const boundaries = document.getElementsByClassName("boundary");
     const displayMessage = document.getElementById("status");
+    const timer = document.getElementById("timer");
     let playerName = prompt("Please enter your name: ");
     let game = false;
     let score = 0;
@@ -63,10 +64,29 @@ window.addEventListener('load', pageLoad = () =>{
     save.appendChild(saveLabel); // Savebar
     save.appendChild(saveButton); // Savebar
     // levels.append(levelLabel,level1,level2,level3) // Levelbar
-    displayMessage.after(save); // Appending to page
+    timer.after(save); // Appending to page
     // displayMessage.after(levels); //Appending to page
     displayMessage.after(scoreBoard); // Appending to page
 
+    // change diffuclty
+
+    easyMode.onclick = function () {
+        easyMode.disabled = true;
+        mediumMode.disabled = false;
+        hardMode.disabled = false;
+    }
+
+    mediumMode.onclick = function () {
+        easyMode.disabled = false;
+        mediumMode.disabled = true;
+        hardMode.disabled = false;
+    }
+
+    hardMode.onclick = function () {
+        easyMode.disabled = false;
+        mediumMode.disabled = false;
+        hardMode.disabled = true;
+    }
     // Save game 
 
     saveButton.addEventListener("click", () => {
