@@ -11,6 +11,7 @@ window.addEventListener('load', pageLoad = () =>{
     const easyMode = document.getElementById("easy");
     const mediumMode = document.getElementById("medium");
     const hardMode = document.getElementById("hard");
+    const gameMode = document.getElementById("gameMode");
     let playerName = prompt("Please enter your name: ");
     let game = false;
     let score = 0;
@@ -53,7 +54,7 @@ window.addEventListener('load', pageLoad = () =>{
     
     // Adding display text
 
-    saveButton.innerHTML = "Save";
+    saveButton.innerHTML = "Save Game";
     // levelLabel.innerHTML = "Choose your level:"
     // level1.innerHTML = "Easy";
     // level2.innerHTML = "Medium";
@@ -71,21 +72,51 @@ window.addEventListener('load', pageLoad = () =>{
     // displayMessage.after(levels); //Appending to page
     displayMessage.after(scoreBoard); // Appending to page
 
-    // change diffuclty
+    // Change diffuclty
+
+    const customTime = document.createElement("div");
+    customTime.id = "customTime"
+    customTime.style.display = "flex";
+    customTime.style.flexDirection = "row";
+    customTime.style.alignItems = "center";
+    customTime.style.justifyContent = "center";
+    const customInput = document.createElement("input");
+    const customButton = document.createElement("button");
+
+    // Input field
+
+    customInput.type = "number";
+    customInput.id = "customInput";
+    customInput.min = "1";
+    customInput.max = "20";
+    customInput.style.width = "40px"
+
+    // Submit button
+
+    customButton.style.marginLeft = "10px";
+    customButton.innerHTML = "Set Timer";
+    
+
+    customTime.appendChild(customInput);
+    customTime.appendChild(customButton);
+
 
     easyMode.onclick = function () {
+        gameMode.after( customTime );
         easyMode.disabled = true;
         mediumMode.disabled = false;
         hardMode.disabled = false;
     }
 
-    mediumMode.onclick = function () {
+    mediumMode.onclick = function () { 
+        document.getElementById("customTime") && document.body.removeChild( customTime );
         easyMode.disabled = false;
         mediumMode.disabled = true;
         hardMode.disabled = false;
     }
 
     hardMode.onclick = function () {
+        document.getElementById("customTime") && document.body.removeChild( customTime );
         easyMode.disabled = false;
         mediumMode.disabled = false;
         hardMode.disabled = true;
