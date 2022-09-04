@@ -7,6 +7,7 @@ window.addEventListener('load', pageLoad = () =>{
     const end = document.getElementById("end");
     const boundaries = document.getElementsByClassName("boundary");
     const displayMessage = document.getElementById("status");
+    let playerName = prompt("Please enter your name: ")
     let game = false;
     let score = 0;
 
@@ -15,39 +16,44 @@ window.addEventListener('load', pageLoad = () =>{
     const scoreBoard = document.createElement("div");
     const scoreDisplay = document.createElement("h2");
 
-    // Adding reset button element
+    // Adding Save button element
 
-    // const reset = document.createElement("div");
-    // reset.style.display = "flex";
-    // reset.style.flexDirection = "column";
-    // reset.style.alignItems = "center";
-    // reset.style.paddingBottom = "10px"
-    // const resetButton = document.createElement("button");
+    const save = document.createElement("div");
+    save.style.display = "flex";
+    save.style.flexDirection = "row";
+    save.style.alignItems = "center";
+    save.style.justifyContent = "center";
+    const saveButton = document.createElement("button");
+    saveButton.style.marginLeft = "10px";
+    const saveLabel = document.createElement("h3");
 
     // Adding display text
 
-    // resetButton.innerHTML = "Reset";
+    saveButton.innerHTML = "Save";
     scoreDisplay.innerHTML = `Your current score: ${score}`;
+    saveLabel.innerHTML = "Remember the name that you've entered."
 
     // Appending elements to page 
 
     scoreBoard.appendChild(scoreDisplay);
-    // reset.appendChild(resetButton);
-    // displayMessage.after(reset);
+    save.appendChild(saveLabel)
+    save.appendChild(saveButton);
+    displayMessage.after(save);
     displayMessage.after(scoreBoard);
 
-    // Reset game 
+    // Save game 
 
-    // resetButton.addEventListener("onClick",{
-    //     score = 0
-    //     scoreDisplay.innerHTML = `Your current score: ${score}`; // Display score
-    //    gameStart();
-    // })
+    saveButton.addEventListener("click", () => {
+        localStorage.setItem(playerName, JSON.stringify({  
+            "Score": score
+        }))
+    })
     
     // Game Start Function
 
     const gameStart = () => {
         game = true //Starts game
+        displayMessage.innerHTML = `Good Luck ${playerName}`;
         Array.from(boundaries).forEach( boundary => {
             boundary.classList.remove("youlose");
         });
