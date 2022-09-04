@@ -7,10 +7,17 @@ window.addEventListener('load', pageLoad = () =>{
     const end = document.getElementById("end");
     const boundaries = document.getElementsByClassName("boundary");
     const displayMessage = document.getElementById("status");
-    let playerName = prompt("Please enter your name: ")
+    let playerName = prompt("Please enter your name: ");
     let game = false;
     let score = 0;
 
+    // Load saved game
+
+    if(localStorage.getItem(playerName.toLowerCase()) !== null){
+        let data = JSON.parse(localStorage.getItem(playerName.toLowerCase()));
+        score = data.score;
+    }   
+    
     // Adding score board element
 
     const scoreBoard = document.createElement("div");
@@ -44,8 +51,8 @@ window.addEventListener('load', pageLoad = () =>{
     // Save game 
 
     saveButton.addEventListener("click", () => {
-        localStorage.setItem(playerName, JSON.stringify({  
-            "Score": score
+        localStorage.setItem(playerName.toLocaleLowerCase(), JSON.stringify({  
+            "score": score
         }))
     })
     
@@ -53,7 +60,7 @@ window.addEventListener('load', pageLoad = () =>{
 
     const gameStart = () => {
         game = true //Starts game
-        displayMessage.innerHTML = `Good Luck ${playerName}`;
+        displayMessage.innerHTML = `Good Luck ${playerName}!`;
         Array.from(boundaries).forEach( boundary => {
             boundary.classList.remove("youlose");
         });
@@ -84,7 +91,7 @@ window.addEventListener('load', pageLoad = () =>{
 
     const gameEnd = () => {
         game = false //reset game
-        displayMessage.innerHTML = "You Lost !"; // Display win message
+        displayMessage.innerHTML = "You`ve Lost !"; // Display win message
         score -= 10; // Removing from score
         scoreDisplay.innerHTML = `Your current score: ${score}`; // Display score
         Array.from(boundaries).forEach( boundary => {
@@ -99,7 +106,7 @@ window.addEventListener('load', pageLoad = () =>{
 
     const gameWin = () => {
         game = false //reset game
-        displayMessage.innerHTML = "You Won !"; // Display win message 
+        displayMessage.innerHTML = "You`ve Won !"; // Display win message 
         score += 5; // Adding to score
         scoreDisplay.innerHTML = `Your current score: ${score}`; //Display score
         Array.from(boundaries).forEach( boundary => {
