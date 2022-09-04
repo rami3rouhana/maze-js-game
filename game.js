@@ -8,6 +8,9 @@ window.addEventListener('load', pageLoad = () =>{
     const boundaries = document.getElementsByClassName("boundary");
     const displayMessage = document.getElementById("status");
     const timer = document.getElementById("timer");
+    const easyMode = document.getElementById("easy");
+    const mediumMode = document.getElementById("medium");
+    const hardMode = document.getElementById("hard");
     let playerName = prompt("Please enter your name: ");
     let game = false;
     let score = 0;
