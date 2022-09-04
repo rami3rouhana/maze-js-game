@@ -48,17 +48,13 @@
 
 			<button id="custom" style="margin: 0px 20px 0px 20px" >Custom</button>
 			
-			<button id="trial" >Trial</button>
+			<button id="trial" disabled >Trial</button>
 
 		</div>
 
-		<div id="timer" style="display: flex; justify-content: center;" >
+		<div id="timer" style="display: flex; justify-content: center; margin: -15px;" >
 
-			<h2 id="mainsecond">00</h2>
-
-			<h2 style="margin: 20px 5px 0px 5px">:</h2>
-
-			<h2 id="milliseconds">000</h2>
+			<h2 id="liveTimer">00:000</h2>
 
 		</div>
 
@@ -101,7 +97,16 @@
 			Good luck!
 
 		</p>
-
+		<div style="display: flex;justify-content: center;flex-direction: column;">
+			<table id="leaderBoard" style="color: #ddd;background: #333;font-size: 12pt; border-collapse: collapse;">
+				<tr>
+					<th>Player</th>
+					<th>Score</th>
+					<th>Best Time</th>
+					<th>Impossible</th>
+				</tr>
+			</table>
+		</div>
 	</body>
 
 </html>
