@@ -34,19 +34,36 @@ window.addEventListener('load', pageLoad = () =>{
     saveButton.style.marginLeft = "10px";
     const saveLabel = document.createElement("h3");
 
+    // Adding game levels
+
+    const levels = document.createElement("div");
+    levels.style.display = "flex";
+    levels.style.flexDirection = "row";
+    levels.style.alignItems = "center";
+    levels.style.justifyContent = "center";
+    const level1 = document.createElement("button");
+    const level2 = document.createElement("button");
+    const level3 = document.createElement("button");
+    level2.style.margin = "0 10px 0 10px"
+
     // Adding display text
 
     saveButton.innerHTML = "Save";
+    level1.innerHTML = "Easy";
+    level2.innerHTML = "Medium";
+    level3.innerHTML = "Hard";
     scoreDisplay.innerHTML = `Your current score: ${score}`;
     saveLabel.innerHTML = "Remember the name that you've entered."
 
     // Appending elements to page 
 
-    scoreBoard.appendChild(scoreDisplay);
-    save.appendChild(saveLabel)
-    save.appendChild(saveButton);
-    displayMessage.after(save);
-    displayMessage.after(scoreBoard);
+    scoreBoard.appendChild(scoreDisplay); // Scoreboard
+    save.appendChild(saveLabel); // Savebar
+    save.appendChild(saveButton); // Savebar
+    levels.append(level1,level2,level3) // Levelbar
+    displayMessage.after(save); // Appending to page
+    displayMessage.after(levels); //Appending to page
+    displayMessage.after(scoreBoard); // Appending to page
 
     // Save game 
 
