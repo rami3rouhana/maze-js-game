@@ -7,12 +7,6 @@ window.addEventListener('load', pageLoad = () => {
     const end = document.getElementById("end");
     const boundaries = document.getElementsByClassName("boundary");
     const displayMessage = document.getElementById("status");
-    const customMode = document.getElementById("custom");
-    const trialMode = document.getElementById("trial");
-    const impMode = document.getElementById("imp");
-    const gameMode = document.getElementById("gameMode");
-    const timer = document.getElementById('liveTimer');
-    const displayTimerScreen = document.getElementById("timer");
     let playerName;
     let game = false;
     let impossible = false;
@@ -30,24 +24,62 @@ window.addEventListener('load', pageLoad = () => {
 
     // Prompt name
 
-    do{
+    do {
         playerName = prompt("Please enter your name: ");
-    }while(playerName == null || playerName == "" );
-
-    // Leader board
-    const table = document.getElementById("leaderBoard");
+    } while (playerName == null || playerName == "");
 
     // Getting all players
 
     players = JSON.parse(localStorage.getItem("players"));
-    if (!players){
+    if (!players) {
         players = {}
     }
     allPlayers = Object.values(players)
 
+    // Adding table div
+
+    const records = document.createElement("div");
+    records.style.display = "flex";
+    records.style.justifyContent = "center";
+    records.style.flexDirection = "column";
+
+    // Adding table
+
+    const tableRecords = document.createElement("table");
+    tableRecords.id = "leaderBoard";
+    tableRecords.style.color = "#ddd";
+    tableRecords.style.background = "#333";
+    tableRecords.style.fontSize = "12pt";
+    tableRecords.style.borderCollapse = "collapse";
+
+    records.appendChild(tableRecords);
+
+    // Adding table header
+
+    const tableTitles = document.createElement("tr");
+    const tableHeader1 = document.createElement("th");
+    tableHeader1.innerHTML = "Player"
+    const tableHeader2 = document.createElement("th");
+    tableHeader2.innerHTML = "Score"
+    const tableHeader3 = document.createElement("th");
+    tableHeader3.innerHTML = "Best Time"
+    const tableHeader4 = document.createElement("th");
+    tableHeader4.innerHTML = "Impossible"
+    tableTitles.appendChild(tableHeader1);
+    tableTitles.appendChild(tableHeader2);
+    tableTitles.appendChild(tableHeader3);
+    tableTitles.appendChild(tableHeader4);
+
+
+    // Appending table
+
+    tableRecords.appendChild(tableTitles)
+    const tableLocation = document.getElementsByTagName("p");
+    tableLocation[1].after(records)
+
     // Adding info to table
 
-    allPlayers.map( (singlePlayer, index) => {
+    allPlayers.map((singlePlayer, index) => {
         let main = document.createElement("tr");
         userPlayer = JSON.parse(localStorage.getItem(singlePlayer));
         let player = document.createElement("td");
@@ -60,13 +92,13 @@ window.addEventListener('load', pageLoad = () => {
         playerBest.innerHTML = `${userPlayer.bestTime[1]}:${userPlayer.bestTime[0]}`;
         playerBest.style.textAlign = "center";
         let playerImp = document.createElement("td");
-        
+
         // Checking if impossible challenge done
 
-        if(userPlayer.impossible){
+        if (userPlayer.impossible) {
             playerImp.innerHTML = "Done";
         }
-        else{
+        else {
             playerImp.innerHTML = "N/A";
         }
         playerImp.style.textAlign = "center";
@@ -74,51 +106,55 @@ window.addEventListener('load', pageLoad = () => {
         main.appendChild(playerScore);
         main.appendChild(playerBest);
         main.appendChild(playerImp);
-        table.appendChild(main);
+        tableRecords.appendChild(main);
+
+        
     })
+
+    //
 
     // Timer display
 
     const displayTimer = () => {
-    milliseconds += 10;
+        milliseconds += 10;
 
-    if (milliseconds == 1000) {
-        milliseconds = 0;
-        seconds++;
-    }
-    if (seconds < 10) {
-        "0" + seconds
-    }
-    else (seconds)
-    milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds;
-    timer.innerHTML = ` ${seconds} : ${milliseconds}`;
+        if (milliseconds == 1000) {
+            milliseconds = 0;
+            seconds++;
+        }
+        if (seconds < 10) {
+            "0" + seconds
+        }
+        else (seconds)
+        milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds;
+        timer.innerHTML = ` ${seconds} : ${milliseconds}`;
     }
 
     // Start timer
 
     const startTimer = () => {
-    if (int !== null) {
-        clearInterval(int);
-    }
-    int = setInterval(displayTimer, 10);
+        if (int !== null) {
+            clearInterval(int);
+        }
+        int = setInterval(displayTimer, 10);
     }
 
     // Start countdown
 
     const startCountDown = () => {
-    let countDownDate = new Date().getTime() + 1000 * timerCountDown;
-    let timeleft
-    game = false
-    countDown = setInterval( () => {
-        let now = new Date().getTime();
-        timeleft = countDownDate - now;
-        [milliseconds, seconds] = [parseInt(timeleft % (1000 * 60).toString().substring(0,3)), Math.floor((timeleft % (1000 * 60)) / 1000)]
-        liveTimer.innerHTML = `${seconds}:${milliseconds}`
-        if (timeleft <= 0) {
-            stopCountDown();
-            gameEnd();
-            liveTimer.innerHTML = `00:000`
-        } 
+        let countDownDate = new Date().getTime() + 1000 * timerCountDown;
+        let timeleft
+        game = false
+        countDown = setInterval(() => {
+            let now = new Date().getTime();
+            timeleft = countDownDate - now;
+            [milliseconds, seconds] = [parseInt(timeleft % (1000 * 60).toString().substring(0, 3)), Math.floor((timeleft % (1000 * 60)) / 1000)]
+            liveTimer.innerHTML = `${seconds}:${milliseconds}`
+            if (timeleft <= 0) {
+                stopCountDown();
+                gameEnd();
+                liveTimer.innerHTML = `00:000`
+            }
         }, 10)
     }
 
@@ -129,17 +165,17 @@ window.addEventListener('load', pageLoad = () => {
         clearInterval(countDown);
         timer.innerHTML = ` ${sec} : ${mil}`;
         return [mil, sec]
-        }
-    
+    }
+
 
     // Stop timer
 
     const stopTimer = () => {
 
-    [mil, sec] = [milliseconds, seconds];
-    clearInterval(int);
-    timer.innerHTML = ` ${sec} : ${mil}`;
-    return [mil, sec]
+        [mil, sec] = [milliseconds, seconds];
+        clearInterval(int);
+        timer.innerHTML = ` ${sec} : ${mil}`;
+        return [mil, sec]
 
     }
 
@@ -149,7 +185,7 @@ window.addEventListener('load', pageLoad = () => {
         clearInterval(int);
         [milliseconds, seconds] = [0, 0];
         timer.innerHTML = '00 : 000 ';
-      }
+    }
 
 
     // Load saved game
@@ -157,13 +193,13 @@ window.addEventListener('load', pageLoad = () => {
     if (localStorage.getItem(playerName.toLowerCase()) !== null) {
 
         let data = JSON.parse(localStorage.getItem(playerName.toLowerCase()));
-        score = data.score;  
-        [bestMsec, bestSec] = [data.bestTime[0],data.bestTime[1]];
-        [lastMsec, lastSec] = [data.lastTime[0],data.lastTime[1]];
+        score = data.score;
+        [bestMsec, bestSec] = [data.bestTime[0], data.bestTime[1]];
+        [lastMsec, lastSec] = [data.lastTime[0], data.lastTime[1]];
 
         // Check if impossible challenge is done
 
-        if(data.impossible){
+        if (data.impossible) {
             impossible = true;
         }
     }
@@ -186,27 +222,57 @@ window.addEventListener('load', pageLoad = () => {
     saveButton.style.marginBottom = "10px";
     // const saveLabel = document.createElement("h3");
 
+    // Adding game level title
+
+    const levelsTitle = document.createElement("h2")
+    levelsTitle.style.margin = "0px 0px 20px;";
+    levelsTitle.style.textDecoration = "underline";
+    levelsTitle.innerHTML = "Choose game mode: "
+
     // // Adding game levels
 
-    // const levels = document.createElement("div");
-    // levels.style.display = "flex";
-    // levels.style.flexDirection = "row";
-    // levels.style.alignItems = "center";
-    // levels.style.justifyContent = "center";
-    // const level1 = document.createElement("button");
-    // const level2 = document.createElement("button");
-    // const level3 = document.createElement("button");
-    // level2.style.margin = "0 10px 0 10px";
-    // const levelLabel = document.createElement("h3");
-    // levelLabel.style.marginRight = "5px";
+    const levels = document.createElement("div");
+    levels.id = "gameMode";
+    levels.style.display = "flex";
+    levels.style.flexDirection = "row";
+    levels.style.alignItems = "center";
+    levels.style.justifyContent = "center";
+    levels.style.paddingBottom = "20px";
+    const level1 = document.createElement("button");
+    level1.id = "imp";
+    level1.innerHTML = "Impossible";
+    const level2 = document.createElement("button");
+    level2.id = "custom";
+    level2.innerHTML = "Custom";
+    const level3 = document.createElement("button");
+    level3.id = "trial";
+    level3.innerHTML = "Trial";
+    level2.style.margin = "0 20px 0 20px";
+    levels.appendChild(level1);
+    levels.appendChild(level2);
+    levels.appendChild(level3);
+
+    // Adding timer
+
+    const timerDiv = document.createElement("div");
+    timerDiv.id = "timer";
+    timerDiv.style.display = "flex";
+    timerDiv.style.justifyContent = "center";
+    timerDiv.style.margin = "-15px";
+    const timerH2 = document.createElement("h2");
+    timerH2.id = "liveTimer";
+    timerH2.innerHTML = "00:000";
+    timerDiv.appendChild(timerH2)
+
 
     // Adding display text
 
+    const levelLocation = document.getElementById("status");
+    levelLocation.after(timerDiv);
+    levelLocation.after(levels);
+    levelLocation.after(levelsTitle);
     saveButton.innerHTML = "Save Game";
-    // levelLabel.innerHTML = "Choose your level:"
-    // level1.innerHTML = "custom";
-    // level2.innerHTML = "trial";
-    // level3.innerHTML = "imp";
+
 
     // Time Management
 
@@ -263,6 +329,15 @@ window.addEventListener('load', pageLoad = () => {
     customTime.appendChild(customButton);
 
 
+    // Fix variable issue
+    const customMode = document.getElementById("custom");
+    const trialMode = document.getElementById("trial");
+    const impMode = document.getElementById("imp");
+    const gameMode = document.getElementById("gameMode");
+    const timer = document.getElementById('liveTimer');
+    const displayTimerScreen = document.getElementById("timer");
+
+
     // Impossible Mode
 
     impMode.onclick = () => {
@@ -278,7 +353,7 @@ window.addEventListener('load', pageLoad = () => {
         customMode.disabled = false;
         trialMode.disabled = false;
         impMode.disabled = true;
-        
+
     }
 
     // Custom Mode function
@@ -287,8 +362,8 @@ window.addEventListener('load', pageLoad = () => {
 
         // Adding the input field 
 
-        gameMode.after(customTime); 
-        if (!document.getElementById("timer")){
+        gameMode.after(customTime);
+        if (!document.getElementById("timer")) {
             customTime.after(displayTimerScreen);
         }
 
@@ -303,11 +378,12 @@ window.addEventListener('load', pageLoad = () => {
         // Adding custom challenge button functionality
 
         customButton.onclick = () => {
-            if (customInput.value <= 5){
-            game = true;
-            timerCountDown = customInput.value;
-            customInput.value <= 9 ? liveTimer.innerHTML = `0${customInput.value}:000` : liveTimer.innerHTML = `${customInput.value}:000`
-            customInput.value = "";}
+            if (customInput.value <= 5) {
+                game = true;
+                timerCountDown = customInput.value;
+                customInput.value <= 9 ? liveTimer.innerHTML = `0${customInput.value}:000` : liveTimer.innerHTML = `${customInput.value}:000`
+                customInput.value = "";
+            }
         }
     }
 
@@ -316,10 +392,10 @@ window.addEventListener('load', pageLoad = () => {
     trialMode.onclick = () => {
 
         // Remove input field
-        
+
         document.getElementById("customTime") && document.body.removeChild(customTime);
 
-        if (!document.getElementById("timer")){
+        if (!document.getElementById("timer")) {
             gameMode.after(displayTimerScreen);
         }
 
@@ -338,12 +414,12 @@ window.addEventListener('load', pageLoad = () => {
     saveButton.addEventListener("click", () => {
 
         players = JSON.parse(localStorage.getItem("players"));
-        if (!players){
+        if (!players) {
             players = {}
         }
         allPlayers = Object.values(players)
         debugger
-        if (allPlayers.includes(playerName)){
+        if (allPlayers.includes(playerName)) {
             localStorage.setItem(playerName.toLocaleLowerCase(), JSON.stringify({
                 score,
                 "bestTime": [bestMsec, bestSec],
@@ -351,7 +427,7 @@ window.addEventListener('load', pageLoad = () => {
                 impossible
             }));
         }
-        else{
+        else {
             let id = Date.now();
             localStorage.setItem(playerName.toLocaleLowerCase(), JSON.stringify({
                 score,
@@ -367,20 +443,20 @@ window.addEventListener('load', pageLoad = () => {
     // Game Start Function
 
     const gameStart = () => {
-        game = true ;   //Starts game
+        game = true;   //Starts game
 
         resetTimer();
 
-        if(gameModeOn === 'imp'){
+        if (gameModeOn === 'imp') {
             myTimeout = setTimeout(gameEnd, 1300); // Set impossible challenge time without timer
         }
-        else if (gameModeOn === 'custom' & game ){
+        else if (gameModeOn === 'custom' & game) {
             startCountDown();
         }
         else {
-        startTimer();
-        }   
-        
+            startTimer();
+        }
+
         // Adding name display
 
         displayMessage.innerHTML = `Good Luck ${playerName}!`;
@@ -404,7 +480,7 @@ window.addEventListener('load', pageLoad = () => {
         }
 
         // Game start
-        if (gameModeOn === "custom" & game){
+        if (gameModeOn === "custom" & game) {
             gameStart();
 
             // Adding listners to borders
@@ -419,7 +495,7 @@ window.addEventListener('load', pageLoad = () => {
 
             end.addEventListener("mouseover", gameWin);
         }
-        else if (gameModeOn === "custom"){
+        else if (gameModeOn === "custom") {
             alert("Please set the timer");
         }
         else {
@@ -463,33 +539,33 @@ window.addEventListener('load', pageLoad = () => {
 
         //reset game
 
-        game = false 
-        let [lastMsecNow, lastSecNow] = [0,0];
+        game = false
+        let [lastMsecNow, lastSecNow] = [0, 0];
 
         // Adding mpossible win
 
-        if(gameModeOn === 'imp'){
+        if (gameModeOn === 'imp') {
             impossible = true;
             clearTimeout(myTimeout);
             let winTime = 1300 - myTimeout;
             winTime = winTime.toString();
-            [lastMsecNow, lastSecNow] = [ parseInt(winTime.substr(-3)), parseInt(winTime.substr(0,1)) ]
+            [lastMsecNow, lastSecNow] = [parseInt(winTime.substr(-3)), parseInt(winTime.substr(0, 1))]
             [lastMsec, lastSec] = [lastMsecNow, lastSecNow];
         }
 
         // Adding custom win
 
-        else if (gameModeOn === 'custom'){
+        else if (gameModeOn === 'custom') {
             [lastMsecNow, lastSecNow] = stopCountDown();
-            [lastMsec, lastSec] = [ (1000 - lastMsecNow) , (parseInt(timerCountDown) - lastSecNow) ] 
+            [lastMsec, lastSec] = [(1000 - lastMsecNow), (parseInt(timerCountDown) - lastSecNow)]
         }
 
         // Adding trial win
 
-        else{
+        else {
             [lastMsecNow, lastSecNow] = stopTimer(); // Retrieve last time
             [lastMsec, lastSec] = [lastMsecNow, lastSecNow];
-        }   
+        }
 
         // Display win
 
@@ -503,7 +579,7 @@ window.addEventListener('load', pageLoad = () => {
             bestMsec = lastMsec;
             bestTime = `${lastSec} : ${lastMsec < 10 ? "00" + lastMsec : lastMsec < 100 ? "0" + lastMsec : lastMsec}`
             bestTimeDisplay.innerHTML = `Your best time : ${bestTime}`
-        } 
+        }
 
         displayMessage.innerHTML = "You`ve Won !"; // Display win message 
         score += 5; // Adding to score
